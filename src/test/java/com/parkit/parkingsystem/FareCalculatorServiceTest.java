@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Date;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -189,4 +190,19 @@ public class FareCalculatorServiceTest {
 		assertEquals((Fare.BIKE_RATE_PER_HOUR * 0.95), ticket.getPrice());
 	}
 
+	@Test
+	void testIllegalArgumentExceptionTypeException() {
+		IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			Date inTime = new Date();
+			inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
+			Date outTime = new Date();
+			ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.TRAIN, false);
+
+			ticket.setInTime(inTime);
+			ticket.setOutTime(outTime);
+			ticket.setParkingSpot(parkingSpot);
+			fareCalculatorService.calculateFare(ticket);
+		});
+		Assertions.assertEquals("Unkown Parking Type", thrown.getMessage());
+	}
 }

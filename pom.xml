@@ -59,6 +59,23 @@
             <artifactId>maven-assembly-plugin</artifactId>
             <version>3.0.0</version>
         </dependency>
+        <dependency>
+  			<groupId>com.github.spotbugs</groupId>
+  			<artifactId>spotbugs</artifactId>
+  			<version>4.7.3</version>
+		</dependency>
+		<dependency>
+  			<groupId>com.github.spotbugs</groupId>
+  			<artifactId>spotbugs-annotations</artifactId>
+  			<version>4.7.3</version>
+  			<optional>true</optional>
+		</dependency>
+		<dependency>
+  			<groupId>net.jcip</groupId>
+  			<artifactId>jcip-annotations</artifactId>
+  			<version>1.0</version>
+  			<optional>true</optional>
+		</dependency>
     </dependencies>
 
     <build>
@@ -125,6 +142,12 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.5</version>
+                <configuration>
+                	<excludes>
+            			<exclude>com/parkit/parkingsystem/util/*</exclude>
+						<exclude>com/parkit/parkingsystem/config/*</exclude>
+        			</excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -140,7 +163,22 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+  				<groupId>com.github.spotbugs</groupId>
+  				<artifactId>spotbugs-maven-plugin</artifactId>
+  				<version>4.7.2.1</version>
+  			<dependencies>
+    		<!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
+    			<dependency>
+     			 	<groupId>com.github.spotbugs</groupId>
+      				<artifactId>spotbugs</artifactId>
+      				<version>4.7.3</version>
+    			</dependency>
+  			</dependencies>
+			</plugin>
         </plugins>
     </build>
+    
+    
 
 </project>
